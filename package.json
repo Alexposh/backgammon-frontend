@@ -1,0 +1,17 @@
+{
+  "name": "table-frontend",
+  "version": "1.0.0",
+  "description": "Backgammon frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "backgammon"
+  ],
+  "author": "Alex",
+  "license": "ISC",
+  "dependencies": {
+    "konva": "^8.3.14"
+  }
+}
