@@ -22,634 +22,730 @@
   <h2>Hell on the left, board on mid and Heaven on the right</h2>
 
   <div id="container"></div>
+
+  <p>List here</p>
   <script>
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    var stage = new Konva.Stage({
-      container: 'container',
-      width: width,
-      height: height,
+//     var width = window.innerWidth;
+//     var height = window.innerHeight;
+//     var stage = new Konva.Stage({
+//       container: 'container',
+//       width: width,
+//       height: height,
 
 
-    });
+//     });
 
-    var layer = new Konva.Layer();
-    stage.add(layer);
+//     var layer = new Konva.Layer();
+//     stage.add(layer);
 
-    board_starting_point = {
-      x: 200,
-      y: 20
-    };
+//     board_starting_point = {
+//       x: 200,
+//       y: 20
+//     };
 
-    var boardBackground = new Konva.Rect({
-      x: board_starting_point.x,
-      y: board_starting_point.y,
-      width: 1460,
-      height: 780,
-      fill: "brown",
-      stroke: 'black',
-      strokeWidth: 4,
-      opacity: 0.4
-    });
+//     var boardBackground = new Konva.Rect({
+//       x: board_starting_point.x,
+//       y: board_starting_point.y,
+//       width: 1460,
+//       height: 780,
+//       fill: "brown",
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       opacity: 0.4
+//     });
 
-    var boardOffSide = new Konva.Rect({
-      x: board_starting_point.x + 20,
-      y: board_starting_point.y + 20,
-      width: 700,
-      height: 740,
-      fill: "red",
-      stroke: 'black',
-      strokeWidth: 4,
-      opacity: 0.2
-    });
+//     var boardOffSide = new Konva.Rect({
+//       x: board_starting_point.x + 20,
+//       y: board_starting_point.y + 20,
+//       width: 700,
+//       height: 740,
+//       fill: "red",
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       opacity: 0.2
+//     });
 
-    var boardHomeSide = new Konva.Rect({
-      x: board_starting_point.x + 740,
-      y: board_starting_point.y + 20,
-      width: 700,
-      height: 740,
-      fill: "green",
-      stroke: 'black',
-      strokeWidth: 4,
-      opacity: 0.2
-    });
+//     var boardHomeSide = new Konva.Rect({
+//       x: board_starting_point.x + 740,
+//       y: board_starting_point.y + 20,
+//       width: 700,
+//       height: 740,
+//       fill: "green",
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       opacity: 0.2
+//     });
 
-    // var poly_spot_5 = new Konva.Line({
-    //   points: [920, 50, 1000, 50, 955, 350],
-    //   fill: '#00D2FF',
-    //   stroke: 'black',
-    //   strokeWidth: 5,
-    //   closed: true,
-    // });
+//     // var poly_spot_5 = new Konva.Line({
+//     //   points: [920, 50, 1000, 50, 955, 350],
+//     //   fill: '#00D2FF',
+//     //   stroke: 'black',
+//     //   strokeWidth: 5,
+//     //   closed: true,
+//     // });
 
-    class Spot {
-      constructor(spotIndex, x, y) {
-        this.spotIndex = spotIndex;
-        this.x = x;
-        this.y = y;
-        this.chips = [];
-      }
-    }
-    let spotsOnTheBoard = [];
-    let spotIndex = 0;
+//     class Spot {
+//       constructor(spotIndex, x, y) {
+//         this.spotIndex = spotIndex;
+//         this.x = x;
+//         this.y = y;
+//         this.chips = [];
+//       }
+//     }
+//     let spotsOnTheBoard = [];
+//     let spotIndex = 0;
 
-    spots_starting_points = {
-      x_values: {
-        off_top: board_starting_point.x + 50,
-        off_bottom: board_starting_point.x + 50,
-        home_top: board_starting_point.x + 760,
-        home_bottom: board_starting_point.x + 760
-      },
+//     spots_starting_points = {
+//       x_values: {
+//         off_top: board_starting_point.x + 50,
+//         off_bottom: board_starting_point.x + 50,
+//         home_top: board_starting_point.x + 760,
+//         home_bottom: board_starting_point.x + 760
+//       },
 
-      y_values: {
-        off_top: board_starting_point.y + 40,
-        off_bottom: board_starting_point.y + 740,
-        home_top: board_starting_point.y + 40,
-        home_bottom: board_starting_point.y + 740
-      }
-    }
+//       y_values: {
+//         off_top: board_starting_point.y + 40,
+//         off_bottom: board_starting_point.y + 740,
+//         home_top: board_starting_point.y + 40,
+//         home_bottom: board_starting_point.y + 740
+//       }
+//     }
 
 
+//     // let spotsTop = generateAllSpots("top");
+//     // let spotsBottom = generateAllSpots("bottom");
 
-    // generate out of the home side top spots
-    function generate_off_top_spots() { // replicate this for the other 3 segments
+// function generateAllSpots(){
+//     for (let i = 11 ; i>=0; i--){
+//       let spot = createSpot(i, boardOffSide + (90*i) + 10, y);
       
-      for (var i = 11; i >= 6; i--) { //generate_off_top_spots
-        let spot = new Konva.Line({
-          points: [spots_starting_points.x_values.off_top, spots_starting_points.y_values.off_top,
-          spots_starting_points.x_values.off_top + 90, spots_starting_points.y_values.off_top,
-          spots_starting_points.x_values.off_top + 45, spots_starting_points.y_values.off_top + 310],
-          fill: '#00D2FF',
-          stroke: 'black',
-          strokeWidth: 5,
-          closed: true,
-          opacity: 0.4
-        });
+//       spotsOnTheBoard.push(spot);
+//     }
+// }
+
+// function getCoordinatesBasedOnIndex(index){
+//   let x = 0;
+//   let y = 0;
+
+//   return [x,y];
+// }
+
+// // function createSpot(index, x, y){
+// //   let [x,y] = getCoordinatesBasedOnIndex(index);
+// //   let newSpot = new Spot(index, x, y);
+// //   return newSpot;
+// // };
+
+//     // drawSpots(spotsTop);
+//     // drawSpots(spotsBottom);
+
+//     // generate out of the home side top spots
+//     // offTop offBottom homeTop homeBottom
+//     function generate_all_spots() { // replicate this for the other 3 segments
+
+//       // offTop
+    
+//       let pointOffTop = [spots_starting_points.x_values.x, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 90, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 45, spots_starting_points.y_values.y + 310];
+      
+//       let pointOffBottom = [spots_starting_points.x_values.x, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 90, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 45, spots_starting_points.y_values.y - 310];
+      
+//       let pointHomeTop = [spots_starting_points.x_values.x, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 90, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 45, spots_starting_points.y_values.y + 310];
+      
+//       let pointHomeBottom = [spots_starting_points.x_values.x, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 90, spots_starting_points.y_values.y,
+//       spots_starting_points.x_values.x + 45, spots_starting_points.y_values.y - 310];
+      
+//       let referencePoint = {
+//         offTop: pointOffTop,
+//         offBottom: pointOffBottom,
+//         homeTop: pointHomeTop,
+//         homeBottom: pointHomeBottom
+//       };
+
+
+//       function veritcalLine() {
+//       let line = new Konva.Line({
+//         points: [spots_starting_points.x_values.off_top +45, spots_starting_points.y_values.off_top,
+//         spots_starting_points.x_values.off_top + 45, spots_starting_points.y_values.off_top + 700
+//       ],
+//         fill: '#eeeee4',
+//         stroke: 'black',
+//         strokeWidth: 5,
+//         // closed: true,
+//         opacity: 0.4
+//       });
+//       spots_starting_points.x_values.off_top += 110;
+//       // console.log(spots_starting_points.x_values.off + " this is for the bottom lines");
+
+//       return line;
+//     };
+
+//     for(i=0;i<6;i++){
+//       layer.add(veritcalLine());
+//     }
+    
+//       // for (var i = 0; i <= 23; i++) { //generate_off_top_spots
+//       //   let points = null;
+//       //   if (i < 6) {
+//       //     points = referencePoint.homeTop
+//       //   } else if (i < 12) {
+//       //     points = referencePoint.offTop;
+//       //   } else if (i < 17) {
+//       //     points = referencePoint.offBottom;
+//       //   } else if (i < 23) {
+//       //     points = referencePoint.homeBottom;
+//       //   }
+
+//         //generate_off_top_spots
+        
+//         // if (referencePointType == "offTop") {
+//         //   referencePointType
+//         //   points = referencePoint.homeTop
+//         // } else if (i < 12) {
+//         //   points = referencePoint.offTop;
+//         // } else if (i < 17) {
+//         //   points = referencePoint.offBottom;
+//         // } else if (i < 23) {
+//         //   points = referencePoint.homeBottom;
+//         // }
+
+//         // let spot = new Konva.Line({
+//         //   points: points,
+//         //   fill: '#00D2FF',
+//         //   stroke: 'black',
+//         //   strokeWidth: 5,
+//         //   closed: true,
+//         //   opacity: 0.4
+//         // });
 
-        let newSpot = new Spot(i, spots_starting_points.x_values.off_top, spots_starting_points.y_values.off_top);
-        if (i % 2 == 0) {
-          spot.attrs.fill = "#eeeee4";
-        }
-        console.log(spot.attrs.fill);
-        spotsOnTheBoard.push(newSpot);
-        spots_starting_points.x_values.off_top += 110;
-        layer.add(spot);
-      }
-      // let newSpot = new Spot(0, spots_starting_points.x_values.off_top, spots_starting_points.y_values.off_top);
+//         // console.log('points: ', points);
+//       //   let newSpot = new Spot(i, points.spots_starting_points.x_values.x, points.spots_starting_points.y_values.y);
+//       //   if (i % 2 == 0) {
+//       //     spot.attrs.fill = "#eeeee4";
+//       //   }
+//       //   console.log(spot.attrs.fill);
+//       //   spotsOnTheBoard.push(newSpot);
+//       //   points.spots_starting_points.x_values.x += 110;
+//       //   layer.add(spot);
+//       }
 
+  
 
 
+    
 
 
 
-    };
 
-
-
-
-    // generate out of the home side bottom spots
-    function generate_off_bottom_spots() {
-      let spot = new Konva.Line({
-        points: [spots_starting_points.x_values.off_bottom, spots_starting_points.y_values.off_bottom,
-        spots_starting_points.x_values.off_bottom + 90, spots_starting_points.y_values.off_bottom,
-        spots_starting_points.x_values.off_bottom + 45, spots_starting_points.y_values.off_bottom - 310],
-        fill: '#eeeee4',
-        stroke: 'black',
-        strokeWidth: 5,
-        closed: true,
-        opacity: 0.4
-      });
-      spots_starting_points.x_values.off_bottom += 110;
-      console.log(spots_starting_points.x_values.off_bottom + " this is for the bottom lines");
-
-      return spot;
-    };
-
-
-    // generate inside the home side top spots
-    function generate_home_top_spots() {
-      let spot = new Konva.Line({
-        points: [spots_starting_points.x_values.home_top, spots_starting_points.y_values.home_top,
-        spots_starting_points.x_values.home_top + 90, spots_starting_points.y_values.home_top,
-        spots_starting_points.x_values.home_top + 45, spots_starting_points.y_values.home_top + 310],
-        fill: '#00D2FF',
-        stroke: 'black',
-        strokeWidth: 5,
-        closed: true,
-        opacity: 0.4
-      });
-      spots_starting_points.x_values.home_top += 110;
-      console.log(spots_starting_points.x_values.home_top);
-
-
-      return spot;
-    };
-
-
-
-
-    // generate inside the home side bottom spots
-    function generate_home_bottom_spots() {
-      let spot = new Konva.Line({
-        points: [spots_starting_points.x_values.home_bottom, spots_starting_points.y_values.home_bottom,
-        spots_starting_points.x_values.home_bottom + 90, spots_starting_points.y_values.home_bottom,
-        spots_starting_points.x_values.home_bottom + 45, spots_starting_points.y_values.home_bottom - 310],
-        fill: '#eeeee4',
-        stroke: 'black',
-        strokeWidth: 5,
-        closed: true,
-        opacity: 0.4
-      });
-      spots_starting_points.x_values.home_bottom += 110;
-      console.log(spots_starting_points.x_values.home_bottom + " this is for the bottom lines");
-
-      return spot;
-    };
-
-
-
-
-    // old established version below
-    //     top_side:{
-    //             off_odd_spots_x_axis_starting_point : board_starting_point.x + 50,
-    //             off_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             off_even_spots_x_axis_starting_point : board_starting_point.x + 160,
-    //             off_even_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             base_odd_spots_x_axis_starting_point : board_starting_point.x + 740,
-    //             base_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             base_even_spots_x_axis_starting_point : board_starting_point.x + 850,
-    //             base_even_spots_y_axis_starting_point : board_starting_point.y + 30,
-    //             },
-
-    //     bottom_side:{
-    //             off_odd_spots_x_axis_starting_point : board_starting_point.x + 50,
-    //             off_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             off_even_spots_x_axis_starting_point : board_starting_point.x + 160,
-    //             off_even_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             base_odd_spots_x_axis_starting_point : board_starting_point.x + 740,
-    //             base_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
-
-    //             base_even_spots_x_axis_starting_point : board_starting_point.x + 850,
-    //             base_even_spots_y_axis_starting_point : board_starting_point.y + 30,
-    //             }
-    //     };
-
-
-    // // below we add the spots in the off_side
-
-    //      function generate_off_top_odd_spots() {
-
-    //     let spot = new Konva.Line({
-    //     points: [spots_starting_points.top_side.off_odd_spots_x_axis_starting_point,spots_starting_points.top_side.off_odd_spots_y_axis_starting_point, 
-    //             spots_starting_points.top_side.off_odd_spots_x_axis_starting_point+90, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point , 
-    //             spots_starting_points.top_side.off_odd_spots_x_axis_starting_point +45, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +300],
-    //     // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //     // x  initial = 200
-    //     // y initial = 20
-    //     fill: '#00D2FF',
-    //     stroke: 'black',
-    //     strokeWidth: 5,
-    //     closed: true,
-    //   });
-    //   spots_starting_points.top_side.off_odd_spots_x_axis_starting_point +=215;
-    //   console.log(spots_starting_points.top_side.off_odd_spots_x_axis_starting_point);
-    //   console.log(spots_starting_points.top_side.off_odd_spots_y_axis_starting_point);
-    //         return spot;
-    // };
-
-    //     function generate_off_top_even_spots() {
-
-    //         let spot = new Konva.Line({
-    //         points: [spots_starting_points.top_side.off_even_spots_x_axis_starting_point ,spots_starting_points.top_side.off_even_spots_y_axis_starting_point, 
-    //             spots_starting_points.top_side.off_even_spots_x_axis_starting_point+90, spots_starting_points.top_side.off_even_spots_y_axis_starting_point , 
-    //             spots_starting_points.top_side.off_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +300],
-    //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //         // x  initial = 200
-    //         // y initial = 20
-    //         stroke: 'black',
-    //         strokeWidth: 5,
-    //         closed: true,
-    //       });
-    //       spots_starting_points.top_side.off_even_spots_x_axis_starting_point +=215;
-    //     //   console.log(spots_x_axis_starting_point);
-    //     //   console.log(spots_y_axis_starting_point);
-    //             return spot;
-    //     };
-
-    //     function generate_off_bottom_odd_spots() {
-
-    //         let spot = new Konva.Line({
-    //         points: [spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point + 45, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point+350, 
-    //                 spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +690,
-    //                 spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point +95, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +690],
-    //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //         // x  initial = 200
-    //         // y initial = 20
-    //         fill: '#eeeee4',
-    //         stroke: 'black',
-    //         strokeWidth: 5,
-    //         closed: true,
-    //       });
-    //       spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point +=215;
-    //       console.log(spots_starting_points.top_side.off_odd_spots_x_axis_starting_point);
-    //       console.log(spots_starting_points.top_side.off_odd_spots_y_axis_starting_point);
-    //             return spot;
-    //     };
-
-    //     function generate_off_bottom_even_spots() {
-
-    //         let spot = new Konva.Line({
-    //         points: [spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point + 45, spots_starting_points.top_side.off_even_spots_y_axis_starting_point+350, 
-    //                 spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +690,
-    //                 spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point +95, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +690],
-    //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //         // x  initial = 200
-    //         // y initial = 20
-    //         fill: '#00D2FF',
-    //         stroke: 'black',
-    //         strokeWidth: 5,
-    //         closed: true,
-    //       });
-    //       spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point +=215;
-    //       console.log(spots_starting_points.top_side.off_even_spots_x_axis_starting_point);
-    //       console.log(spots_starting_points.top_side.off_even_spots_y_axis_starting_point);
-    //             return spot;
-    //     };
-
-
-    //     // below we add the spots in the base
-
-    //         function generate_base_top_odd_spots() {
-
-    //         let spot = new Konva.Line({
-    //         points: [spots_starting_points.top_side.base_odd_spots_x_axis_starting_point,spots_starting_points.top_side.base_odd_spots_y_axis_starting_point , 
-    //                 spots_starting_points.top_side.base_odd_spots_x_axis_starting_point+90, spots_starting_points.top_side.base_odd_spots_y_axis_starting_point , 
-    //                 spots_starting_points.top_side.base_odd_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_odd_spots_y_axis_starting_point +300],
-    //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //         // x  initial = 200
-    //         // y initial = 20
-    //         fill: '#00D2FF',
-    //         stroke: 'black',
-    //         strokeWidth: 5,
-    //         closed: true,
-    //       });
-    //       spots_starting_points.top_side.base_odd_spots_x_axis_starting_point +=215;
-    //       console.log(spots_starting_points.top_side.base_odd_spots_x_axis_starting_point);
-    //       console.log(spots_starting_points.top_side.base_odd_spots_y_axis_starting_point);
-    //             return spot;
-    //     };
-
-    //         function generate_base_top_even_spots() {
-
-    //             let spot = new Konva.Line({
-    //             points: [spots_starting_points.top_side.base_even_spots_x_axis_starting_point ,spots_starting_points.top_side.base_even_spots_y_axis_starting_point, 
-    //                 spots_starting_points.top_side.base_even_spots_x_axis_starting_point+90, spots_starting_points.top_side.base_even_spots_y_axis_starting_point , 
-    //                 spots_starting_points.top_side.base_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +300],
-    //             // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //             // x  initial = 200
-    //             // y initial = 20
-    //             fill: '#eeeee4',
-    //             stroke: 'black',
-    //             strokeWidth: 5,
-    //             closed: true,
-    //           });
-    //           spots_starting_points.top_side.base_even_spots_x_axis_starting_point +=215;
-    //         //   console.log(spots_x_axis_starting_point);
-    //         //   console.log(spots_y_axis_starting_point);
-    //                 return spot;
-    //         };
-
-    //         function generate_base_bottom_odd_spots() {
-
-    //             let spot = new Konva.Line({
-    //             points: [spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point + 45, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point+350, 
-    //                     spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point +690,
-    //                     spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point +95, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point +690],
-    //                     fill: '#eeeee4',
-    //             stroke: 'black',
-    //             strokeWidth: 5,
-    //             closed: true,
-    //           });
-    //           spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point +=215;
-    //           console.log(spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point);
-    //           console.log(spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point);
-    //                 return spot;
-    //         };
-
-    //         function generate_base_bottom_even_spots() {
-
-    //             let spot = new Konva.Line({
-    //             points: [spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_even_spots_y_axis_starting_point+350, 
-    //                     spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +690,
-    //                     spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +95, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +690],
-    //             // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
-    //             // x  initial = 200
-    //             // y initial = 20
-    //             fill: '#00D2FF',
-    //             stroke: 'black',
-    //             strokeWidth: 5,
-    //             closed: true,
-    //           });
-    //           spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +=215;
-    //           console.log(spots_starting_points.top_side.base_even_spots_x_axis_starting_point);
-    //           console.log(spots_starting_points.top_side.base_even_spots_y_axis_starting_point);
-    //                 return spot;
-    //         };
-
-
-    //         // below we add the spots to the layer
-
-    //     for (var i = 0; i < 3; i++) { //generate_off_top_odd_spots
-    //         layer.add(generate_off_top_odd_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_off_top_even_spots
-    //         layer.add(generate_off_top_even_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_off_bottom_odd_spots
-    //         layer.add(generate_off_bottom_odd_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_off_bottom_even_spots
-    //         layer.add(generate_off_bottom_even_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_base_top_odd_spots
-    //         layer.add(generate_base_top_odd_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_base_top_even_spots
-    //         layer.add(generate_base_top_even_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_base_bottom_odd_spots
-    //         layer.add(generate_base_bottom_odd_spots());
-
-    //     }
-    //     for (var i = 0; i < 3; i++) { //generate_base_bottom_even_spots()
-    //         layer.add(generate_base_bottom_even_spots());
-
-    //     }
-
-    // old established version stops here
-
-    var playersHell = new Konva.Rect({
-      x: 70,
-      y: 40,
-      width: 90,
-      height: 710,
-      fill: "white",
-      stroke: 'black',
-      strokeWidth: 4,
-      opacity: 0.2
-    });
-    //   var redHell = new Konva.Rect({
-    //     x: 910,
-    //     y: 40,
-    //     width: 670,
-    //     height: 710,
-    //     fill: "green",
-    //     stroke: 'black',
-    //     strokeWidth: 4,
-    //     opacity: 0.2
-    //   });
-
-    var playersHeaven = new Konva.Rect({
-      x: 1680,
-      y: 40,
-      width: 90,
-      height: 710,
-      fill: "black",
-      stroke: 'black',
-      strokeWidth: 4,
-      opacity: 0.4
-    });
-    var redCircle1 = new Konva.Circle({
-      x: 110,
-      y: 80,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-    });
-    var redCircle2 = new Konva.Circle({
-      x: 110,
-      y: 100,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-    });
-    var redCircle3 = new Konva.Circle({
-      x: 1720,
-      y: 80,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-      draggable: true
-    });
-    var redCircle4 = new Konva.Circle({
-      x: 1720,
-      y: 100,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-    });
-    var redCircle5 = new Konva.Circle({
-      x: 1700,
-      y: 80,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-    });
-    var redCircle6 = new Konva.Circle({
-      x: 1700,
-      y: 100,
-      radius: 30,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-    });
-
-    y_starting_red = 95;
-    y_starting_white = 465;
-
-    function generateRedPieces_spot5() {
-
-      let circle = new Konva.Circle({
-        x: 1005,
-        y: y_starting_red,
-        radius: 30,
-        fill: 'red',
-        stroke: 'black',
-        draggable: true,
-        opacity: 0.9
-      });
-      y_starting_red += 65;
-      return circle;
-    }
-
-    function generatePiece(spot, color) {
-      let numberOfChipsAlreadyOnSpot = spot.chips.length;
-      let circle = new Konva.Circle({
-        x: spot.x + 45,
-        y: spot.y + (numberOfChipsAlreadyOnSpot == 0 ? 5 : 0) + 30 + 35 * 2 * numberOfChipsAlreadyOnSpot,
-        radius: 30,
-        fill: color == 'RED' ? 'red' : 'white',
-        stroke: 'black',
-        draggable: true,
-        opacity: 0.9
-      });
-      return circle;
-    }
-
-    function generateWhitePieces_spot18() {
-
-      let circle = new Konva.Circle({
-        x: 1005,
-        y: y_starting_white,
-        radius: 30,
-        fill: 'white',
-        stroke: 'black',
-        draggable: true,
-        opacity: 0.9
-      });
-      y_starting_white += 65;
-      return circle;
-    }
-
-
-    //   var redHeaven = new Konva.Rect({
-    //     x: 910,
-    //     y: 40,
-    //     width: 670,
-    //     height: 710,
-    //     fill: "green",
-    //     stroke: 'black',
-    //     strokeWidth: 4,
-    //     opacity: 0.2
-    //   });
-
-    layer.add(boardBackground);
-    layer.add(boardOffSide);
-    layer.add(boardHomeSide);
-    layer.add(playersHell);
-    layer.add(playersHeaven);
-    layer.add(redCircle1);
-    layer.add(redCircle2);
-    layer.add(redCircle3);
-    layer.add(redCircle4);
-
-
-
-    generate_off_top_spots();
-    console.log('spots all: ', spotsOnTheBoard);
-
-
-    function placeChipOnSpot(spot, layer, color) {
-      // color: "RED"
-      let chip = generatePiece(spot, color);
-      spot.chips.push(chip);
-      layer.add(chip);
-
-    }
-    function removeChipFromSpot() {
-
-    }
-    // placeChipOnSpot(spotsOnTheBoard[0], {color: "RED"})
-
-    for (var i = 0; i < 6; i++) { //generate_off_bottom_spots
-      let spot_added = generate_off_bottom_spots();
-      if (i % 2 == 0) {
-        spot_added.attrs.fill = "#00D2FF";
-      }
-      layer.add(spot_added);
-    }
-
-
-    for (var i = 0; i < 6; i++) { //generate_home_top_spots
-      let spot_added = generate_home_top_spots();
-      if (i % 2 == 0) {
-        spot_added.attrs.fill = "#eeeee4";
-      }
-      console.log(spot_added.attrs.fill);
-      layer.add(spot_added);
-    }
-
-
-    for (var i = 0; i < 6; i++) { //generate_home_bottom_spots
-      let spot_added = generate_home_bottom_spots();
-      if (i % 2 == 0) {
-        spot_added.attrs.fill = "#00D2FF";
-      }
-      layer.add(spot_added);
-    }
-
-
-    for (var i = 0; i < 5; i++) {
-      layer.add(generateRedPieces_spot5());
-
-    }
-    // spot             Circle
-    placeChipOnSpot(spotsOnTheBoard[0], layer, "RED");
-    placeChipOnSpot(spotsOnTheBoard[3], layer, "RED");
-    placeChipOnSpot(spotsOnTheBoard[0], layer, "WHITE");
-    placeChipOnSpot(spotsOnTheBoard[3], layer, "WHITE");
-
-    console.log(spotsOnTheBoard);
-
-    for (var i = 0; i < 5; i++) {
-      layer.add(generateWhitePieces_spot18());
-    }
+//     // generate out of the home side bottom spots
+//     function generate_off_bottom_spots() {
+//       let spot = new Konva.Line({
+//         points: [spots_starting_points.x_values.off_bottom, spots_starting_points.y_values.off_bottom,
+//         spots_starting_points.x_values.off_bottom + 90, spots_starting_points.y_values.off_bottom,
+//         spots_starting_points.x_values.off_bottom + 45, spots_starting_points.y_values.off_bottom - 310],
+//         fill: '#eeeee4',
+//         stroke: 'black',
+//         strokeWidth: 5,
+//         closed: true,
+//         opacity: 0.4
+//       });
+//       spots_starting_points.x_values.off_bottom += 110;
+//       console.log(spots_starting_points.x_values.off_bottom + " this is for the bottom lines");
+
+//       return spot;
+//     };
+
+
+//     // generate inside the home side top spots
+//     function generate_home_top_spots() {
+//       let spot = new Konva.Line({
+//         points: [spots_starting_points.x_values.home_top, spots_starting_points.y_values.home_top,
+//         spots_starting_points.x_values.home_top + 90, spots_starting_points.y_values.home_top,
+//         spots_starting_points.x_values.home_top + 45, spots_starting_points.y_values.home_top + 310],
+//         fill: '#00D2FF',
+//         stroke: 'black',
+//         strokeWidth: 5,
+//         closed: true,
+//         opacity: 0.4
+//       });
+//       spots_starting_points.x_values.home_top += 110;
+//       console.log(spots_starting_points.x_values.home_top);
+
+
+//       return spot;
+//     };
+
+
+
+
+//     // generate inside the home side bottom spots
+//     function generate_home_bottom_spots() {
+//       let spot = new Konva.Line({
+//         points: [spots_starting_points.x_values.home_bottom, spots_starting_points.y_values.home_bottom,
+//         spots_starting_points.x_values.home_bottom + 90, spots_starting_points.y_values.home_bottom,
+//         spots_starting_points.x_values.home_bottom + 45, spots_starting_points.y_values.home_bottom - 310],
+//         fill: '#eeeee4',
+//         stroke: 'black',
+//         strokeWidth: 5,
+//         closed: true,
+//         opacity: 0.4
+//       });
+//       spots_starting_points.x_values.home_bottom += 110;
+//       console.log(spots_starting_points.x_values.home_bottom + " this is for the bottom lines");
+
+//       return spot;
+//     };
+
+
+
+
+//     // old established version below
+//     //     top_side:{
+//     //             off_odd_spots_x_axis_starting_point : board_starting_point.x + 50,
+//     //             off_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             off_even_spots_x_axis_starting_point : board_starting_point.x + 160,
+//     //             off_even_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             base_odd_spots_x_axis_starting_point : board_starting_point.x + 740,
+//     //             base_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             base_even_spots_x_axis_starting_point : board_starting_point.x + 850,
+//     //             base_even_spots_y_axis_starting_point : board_starting_point.y + 30,
+//     //             },
+
+//     //     bottom_side:{
+//     //             off_odd_spots_x_axis_starting_point : board_starting_point.x + 50,
+//     //             off_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             off_even_spots_x_axis_starting_point : board_starting_point.x + 160,
+//     //             off_even_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             base_odd_spots_x_axis_starting_point : board_starting_point.x + 740,
+//     //             base_odd_spots_y_axis_starting_point : board_starting_point.y + 30,
+
+//     //             base_even_spots_x_axis_starting_point : board_starting_point.x + 850,
+//     //             base_even_spots_y_axis_starting_point : board_starting_point.y + 30,
+//     //             }
+//     //     };
+
+
+//     // // below we add the spots in the off_side
+
+//     //      function generate_off_top_odd_spots() {
+
+//     //     let spot = new Konva.Line({
+//     //     points: [spots_starting_points.top_side.off_odd_spots_x_axis_starting_point,spots_starting_points.top_side.off_odd_spots_y_axis_starting_point, 
+//     //             spots_starting_points.top_side.off_odd_spots_x_axis_starting_point+90, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point , 
+//     //             spots_starting_points.top_side.off_odd_spots_x_axis_starting_point +45, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +300],
+//     //     // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //     // x  initial = 200
+//     //     // y initial = 20
+//     //     fill: '#00D2FF',
+//     //     stroke: 'black',
+//     //     strokeWidth: 5,
+//     //     closed: true,
+//     //   });
+//     //   spots_starting_points.top_side.off_odd_spots_x_axis_starting_point +=215;
+//     //   console.log(spots_starting_points.top_side.off_odd_spots_x_axis_starting_point);
+//     //   console.log(spots_starting_points.top_side.off_odd_spots_y_axis_starting_point);
+//     //         return spot;
+//     // };
+
+//     //     function generate_off_top_even_spots() {
+
+//     //         let spot = new Konva.Line({
+//     //         points: [spots_starting_points.top_side.off_even_spots_x_axis_starting_point ,spots_starting_points.top_side.off_even_spots_y_axis_starting_point, 
+//     //             spots_starting_points.top_side.off_even_spots_x_axis_starting_point+90, spots_starting_points.top_side.off_even_spots_y_axis_starting_point , 
+//     //             spots_starting_points.top_side.off_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +300],
+//     //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //         // x  initial = 200
+//     //         // y initial = 20
+//     //         stroke: 'black',
+//     //         strokeWidth: 5,
+//     //         closed: true,
+//     //       });
+//     //       spots_starting_points.top_side.off_even_spots_x_axis_starting_point +=215;
+//     //     //   console.log(spots_x_axis_starting_point);
+//     //     //   console.log(spots_y_axis_starting_point);
+//     //             return spot;
+//     //     };
+
+//     //     function generate_off_bottom_odd_spots() {
+
+//     //         let spot = new Konva.Line({
+//     //         points: [spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point + 45, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point+350, 
+//     //                 spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +690,
+//     //                 spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point +95, spots_starting_points.top_side.off_odd_spots_y_axis_starting_point +690],
+//     //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //         // x  initial = 200
+//     //         // y initial = 20
+//     //         fill: '#eeeee4',
+//     //         stroke: 'black',
+//     //         strokeWidth: 5,
+//     //         closed: true,
+//     //       });
+//     //       spots_starting_points.bottom_side.off_odd_spots_x_axis_starting_point +=215;
+//     //       console.log(spots_starting_points.top_side.off_odd_spots_x_axis_starting_point);
+//     //       console.log(spots_starting_points.top_side.off_odd_spots_y_axis_starting_point);
+//     //             return spot;
+//     //     };
+
+//     //     function generate_off_bottom_even_spots() {
+
+//     //         let spot = new Konva.Line({
+//     //         points: [spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point + 45, spots_starting_points.top_side.off_even_spots_y_axis_starting_point+350, 
+//     //                 spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +690,
+//     //                 spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point +95, spots_starting_points.top_side.off_even_spots_y_axis_starting_point +690],
+//     //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //         // x  initial = 200
+//     //         // y initial = 20
+//     //         fill: '#00D2FF',
+//     //         stroke: 'black',
+//     //         strokeWidth: 5,
+//     //         closed: true,
+//     //       });
+//     //       spots_starting_points.bottom_side.off_even_spots_x_axis_starting_point +=215;
+//     //       console.log(spots_starting_points.top_side.off_even_spots_x_axis_starting_point);
+//     //       console.log(spots_starting_points.top_side.off_even_spots_y_axis_starting_point);
+//     //             return spot;
+//     //     };
+
+
+//     //     // below we add the spots in the base
+
+//     //         function generate_base_top_odd_spots() {
+
+//     //         let spot = new Konva.Line({
+//     //         points: [spots_starting_points.top_side.base_odd_spots_x_axis_starting_point,spots_starting_points.top_side.base_odd_spots_y_axis_starting_point , 
+//     //                 spots_starting_points.top_side.base_odd_spots_x_axis_starting_point+90, spots_starting_points.top_side.base_odd_spots_y_axis_starting_point , 
+//     //                 spots_starting_points.top_side.base_odd_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_odd_spots_y_axis_starting_point +300],
+//     //         // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //         // x  initial = 200
+//     //         // y initial = 20
+//     //         fill: '#00D2FF',
+//     //         stroke: 'black',
+//     //         strokeWidth: 5,
+//     //         closed: true,
+//     //       });
+//     //       spots_starting_points.top_side.base_odd_spots_x_axis_starting_point +=215;
+//     //       console.log(spots_starting_points.top_side.base_odd_spots_x_axis_starting_point);
+//     //       console.log(spots_starting_points.top_side.base_odd_spots_y_axis_starting_point);
+//     //             return spot;
+//     //     };
+
+//     //         function generate_base_top_even_spots() {
+
+//     //             let spot = new Konva.Line({
+//     //             points: [spots_starting_points.top_side.base_even_spots_x_axis_starting_point ,spots_starting_points.top_side.base_even_spots_y_axis_starting_point, 
+//     //                 spots_starting_points.top_side.base_even_spots_x_axis_starting_point+90, spots_starting_points.top_side.base_even_spots_y_axis_starting_point , 
+//     //                 spots_starting_points.top_side.base_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +300],
+//     //             // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //             // x  initial = 200
+//     //             // y initial = 20
+//     //             fill: '#eeeee4',
+//     //             stroke: 'black',
+//     //             strokeWidth: 5,
+//     //             closed: true,
+//     //           });
+//     //           spots_starting_points.top_side.base_even_spots_x_axis_starting_point +=215;
+//     //         //   console.log(spots_x_axis_starting_point);
+//     //         //   console.log(spots_y_axis_starting_point);
+//     //                 return spot;
+//     //         };
+
+//     //         function generate_base_bottom_odd_spots() {
+
+//     //             let spot = new Konva.Line({
+//     //             points: [spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point + 45, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point+350, 
+//     //                     spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point +690,
+//     //                     spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point +95, spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point +690],
+//     //                     fill: '#eeeee4',
+//     //             stroke: 'black',
+//     //             strokeWidth: 5,
+//     //             closed: true,
+//     //           });
+//     //           spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point +=215;
+//     //           console.log(spots_starting_points.bottom_side.base_odd_spots_x_axis_starting_point);
+//     //           console.log(spots_starting_points.bottom_side.base_odd_spots_y_axis_starting_point);
+//     //                 return spot;
+//     //         };
+
+//     //         function generate_base_bottom_even_spots() {
+
+//     //             let spot = new Konva.Line({
+//     //             points: [spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +45, spots_starting_points.top_side.base_even_spots_y_axis_starting_point+350, 
+//     //                     spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +690,
+//     //                     spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +95, spots_starting_points.top_side.base_even_spots_y_axis_starting_point +690],
+//     //             // board_starting_point.x + 40,board_starting_point.y +30, board_starting_point.x + 120, board_starting_point.y +30, board_starting_point.x + 75, board_starting_point.y +150
+//     //             // x  initial = 200
+//     //             // y initial = 20
+//     //             fill: '#00D2FF',
+//     //             stroke: 'black',
+//     //             strokeWidth: 5,
+//     //             closed: true,
+//     //           });
+//     //           spots_starting_points.bottom_side.base_even_spots_x_axis_starting_point +=215;
+//     //           console.log(spots_starting_points.top_side.base_even_spots_x_axis_starting_point);
+//     //           console.log(spots_starting_points.top_side.base_even_spots_y_axis_starting_point);
+//     //                 return spot;
+//     //         };
+
+
+//     //         // below we add the spots to the layer
+
+//     //     for (var i = 0; i < 3; i++) { //generate_off_top_odd_spots
+//     //         layer.add(generate_off_top_odd_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_off_top_even_spots
+//     //         layer.add(generate_off_top_even_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_off_bottom_odd_spots
+//     //         layer.add(generate_off_bottom_odd_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_off_bottom_even_spots
+//     //         layer.add(generate_off_bottom_even_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_base_top_odd_spots
+//     //         layer.add(generate_base_top_odd_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_base_top_even_spots
+//     //         layer.add(generate_base_top_even_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_base_bottom_odd_spots
+//     //         layer.add(generate_base_bottom_odd_spots());
+
+//     //     }
+//     //     for (var i = 0; i < 3; i++) { //generate_base_bottom_even_spots()
+//     //         layer.add(generate_base_bottom_even_spots());
+
+//     //     }
+
+//     // old established version stops here
+
+//     var playersHell = new Konva.Rect({
+//       x: 70,
+//       y: 40,
+//       width: 90,
+//       height: 710,
+//       fill: "white",
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       opacity: 0.2
+//     });
+//     //   var redHell = new Konva.Rect({
+//     //     x: 910,
+//     //     y: 40,
+//     //     width: 670,
+//     //     height: 710,
+//     //     fill: "green",
+//     //     stroke: 'black',
+//     //     strokeWidth: 4,
+//     //     opacity: 0.2
+//     //   });
+
+//     var playersHeaven = new Konva.Rect({
+//       x: 1680,
+//       y: 40,
+//       width: 90,
+//       height: 710,
+//       fill: "black",
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       opacity: 0.4
+//     });
+//     var redCircle1 = new Konva.Circle({
+//       x: 110,
+//       y: 80,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//     });
+//     var redCircle2 = new Konva.Circle({
+//       x: 110,
+//       y: 100,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//     });
+//     var redCircle3 = new Konva.Circle({
+//       x: 1720,
+//       y: 80,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//       draggable: true
+//     });
+//     var redCircle4 = new Konva.Circle({
+//       x: 1720,
+//       y: 100,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//     });
+//     var redCircle5 = new Konva.Circle({
+//       x: 1700,
+//       y: 80,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//     });
+//     var redCircle6 = new Konva.Circle({
+//       x: 1700,
+//       y: 100,
+//       radius: 30,
+//       fill: 'red',
+//       stroke: 'black',
+//       strokeWidth: 4,
+//     });
+
+//     y_starting_red = 95;
+//     y_starting_white = 465;
+
+//     function generateRedPieces_spot5() {
+
+//       let circle = new Konva.Circle({
+//         x: 1005,
+//         y: y_starting_red,
+//         radius: 30,
+//         fill: 'red',
+//         stroke: 'black',
+//         draggable: true,
+//         opacity: 0.9
+//       });
+//       y_starting_red += 65;
+//       return circle;
+//     }
+
+//     function generatePiece(spot, color) {
+//       let numberOfChipsAlreadyOnSpot = spot.chips.length;
+//       let circle = new Konva.Circle({
+//         x: spot.x + 45,
+//         y: spot.y + (numberOfChipsAlreadyOnSpot == 0 ? 5 : 0) + 30 + 35 * 2 * numberOfChipsAlreadyOnSpot,
+//         radius: 30,
+//         fill: color == 'RED' ? 'red' : 'white',
+//         stroke: 'black',
+//         draggable: true,
+//         opacity: 0.9
+//       });
+//       return circle;
+//     }
+
+//     function generateWhitePieces_spot18() {
+
+//       let circle = new Konva.Circle({
+//         x: 1005,
+//         y: y_starting_white,
+//         radius: 30,
+//         fill: 'white',
+//         stroke: 'black',
+//         draggable: true,
+//         opacity: 0.9
+//       });
+//       y_starting_white += 65;
+//       return circle;
+//     }
+
+
+//     //   var redHeaven = new Konva.Rect({
+//     //     x: 910,
+//     //     y: 40,
+//     //     width: 670,
+//     //     height: 710,
+//     //     fill: "green",
+//     //     stroke: 'black',
+//     //     strokeWidth: 4,
+//     //     opacity: 0.2
+//     //   });
+
+//     layer.add(boardBackground);
+//     layer.add(boardOffSide);
+//     layer.add(boardHomeSide);
+//     layer.add(playersHell);
+//     layer.add(playersHeaven);
+//     layer.add(redCircle1);
+//     layer.add(redCircle2);
+//     layer.add(redCircle3);
+//     layer.add(redCircle4);
+
+
+//     generate_all_spots();
+//     // generate_off_top_spots();
+//     console.log('spots all: ', spotsOnTheBoard);
+
+
+//     function placeChipOnSpot(spot, layer, color) {
+//       // color: "RED"
+//       let chip = generatePiece(spot, color);
+//       spot.chips.push(chip);
+//       layer.add(chip);
+
+//     }
+//     function removeChipFromSpot() {
+
+//     }
+//     // // placeChipOnSpot(spotsOnTheBoard[0], {color: "RED"})
+
+//     for (var i = 0; i < 6; i++) { //generate_off_bottom_spots
+//       let spot_added = generate_off_bottom_spots();
+//       if (i % 2 == 0) {
+//         spot_added.attrs.fill = "#00D2FF";
+//       }
+//       layer.add(spot_added);
+//     }
+
+
+//     for (var i = 0; i < 6; i++) { //generate_home_top_spots
+//       let spot_added = generate_home_top_spots();
+//       if (i % 2 == 0) {
+//         spot_added.attrs.fill = "#eeeee4";
+//       }
+//       console.log(spot_added.attrs.fill);
+//       layer.add(spot_added);
+//     }
+
+
+//     for (var i = 0; i < 6; i++) { //generate_home_bottom_spots
+//       let spot_added = generate_home_bottom_spots();
+//       if (i % 2 == 0) {
+//         spot_added.attrs.fill = "#00D2FF";
+//       }
+//       layer.add(spot_added);
+//     }
+
+
+//     for (var i = 0; i < 5; i++) {
+//       layer.add(generateRedPieces_spot5());
+
+//     }
+//     // spot             Circle
+//     placeChipOnSpot(spotsOnTheBoard[0], layer, "RED");
+//     placeChipOnSpot(spotsOnTheBoard[3], layer, "RED");
+//     placeChipOnSpot(spotsOnTheBoard[0], layer, "WHITE");
+//     placeChipOnSpot(spotsOnTheBoard[3], layer, "WHITE");
+
+//     console.log(spotsOnTheBoard);
+
+//     for (var i = 0; i < 5; i++) {
+//       layer.add(generateWhitePieces_spot18());
+//     }
 
 
 
@@ -666,6 +762,236 @@
         // for (var i = 0; i < NUMBER; i++) {
         //     layer.add(generateNode());
         // }
+  </script>
+  <script src="../js/backgammon.js"></script>
+  <script>
+
+
+// function refreshBoard(datele){
+  // spotsOnTheBoard = [];
+  // for(let chip of pieces){
+  //   chip.destroy();
+  // }
+  spotsOnTheBoard = [];
+  drawnSpots = [];
+  circlesAndPositions = new Map();
+  // if(layer){
+  //   layer.destory();
+  // }
+  generateLayer();
+  generate_all_spots();
+  
+  // spotIndex = 0;
+  // for(let i=0; i<datele.board.length; i++){
+  //         spotsOnTheBoard[i].chips.color = datele.board[i].color;
+  //         spotsOnTheBoard[i].chips.nrOfChips = datele.board[i].nrChips;
+  //         let chipPieces = generatePiece(spotsOnTheBoard[i], datele.myOptions);
+  //         for(let chip of chipPieces){
+  //           layer.add(chip);
+  //         }
+  //       }
+// }
+
+function getDiceRollResult(){
+  fetch('http://localhost:8080/BackgammonWeb/TurnServlet?me=RED&die1=2&die2=2')
+      .then(datele => datele.json())
+      .then(datele => {
+        console.log('datele de la server: ', datele);
+        // refreshBoard(datele);
+        for(let i=0; i<datele.board.length; i++){
+          spotsOnTheBoard[i].chips.color = datele.board[i].color;
+          spotsOnTheBoard[i].chips.nrOfChips = datele.board[i].nrChips;
+          let chipPieces = generatePiece(spotsOnTheBoard[i], datele.myOptions);
+          for(let chip of chipPieces){
+            layer.add(chip);
+          }
+        }
+        console.log('after server request: ', spotsOnTheBoard);
+        
+      });
+}
+
+getDiceRollResult();
+
+function takeActionAfterMove(spotFrom, spotTo){
+  fetch('http://localhost:8080/BackgammonWeb/TurnServlet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            player: "RED",
+            spotFrom: spotFrom,
+            spotTo: spotTo
+
+              })    
+        })
+      .then(datele => datele.json())
+      .then(datele => {
+        // refreshBoard(datele);
+        // console.log('datele noi de la server: ', datele);
+        // for(let i=0; i<datele.board.length; i++){
+        //   spotsOnTheBoard[i].chips.color = datele.board[i].color;
+        //   spotsOnTheBoard[i].chips.nrOfChips = datele.board[i].nrChips;
+        //   let chipPieces = generatePiece(spotsOnTheBoard[i], datele.myOptions);
+        //   for(let chip of chipPieces){
+        //     layer.add(chip);
+        //   }
+        // }
+        // console.log('after server request: ', spotsOnTheBoard);
+        // circlesAndPositions = new Map();
+      });
+}
+
+
+
+    // for 
+
+      // let moveInProgress = {
+      //   pieceActivated: null,
+      //   endDestination: [],
+
+      // }
+      let pieceActivated = null;
+      // let movesToPickFrom = {
+      //   pieceActivated: null,
+      //   endDestination: []
+
+      // }
+      // let circlesAndPositions = new Map();
+
+      function generatePiece(spot, myOptions) {
+        let numberOfChipsAlreadyOnSpot = spot.chips.nrOfChips;
+        let pieces = [];
+        for(let i=0; i<numberOfChipsAlreadyOnSpot; i++){
+
+          let possibleEndDestinations = [];
+          let isLastChip = i == numberOfChipsAlreadyOnSpot - 1;
+          let isInMyOptions = false;
+          for(let option of myOptions){
+            if(option.initial == spot.spotIndex){
+              isInMyOptions = true;
+              possibleEndDestinations.push(option.end);
+             
+              
+            }
+          }
+          let color = null;
+          if(isInMyOptions && isLastChip){
+            color = 'yellow';
+           
+          }else{
+            color = spot.chips.color == 'RED' ? 'red' : 'white';
+          }
+
+         
+        let circle = new Konva.Circle({
+          x: spot.x,
+          y: spot.spotIndex < 12 ?  (spot.y + 35 + i * 65) : (spot.y - 35 - i * 65),
+          radius: 30,
+          fill:  color,
+          stroke: 'black',
+          draggable: true,
+          opacity: 0.7
+        });
+        // if(isInMyOptions && isLastChip){
+          if(color == 'yellow'){
+            circle.on('click', function () {
+            var fill = this.fill() == 'green' ? 'yellow' : 'green';
+            this.fill(fill);  
+            
+            // pieceActivated = circle;
+            circlesAndPositions.set(circle, possibleEndDestinations);
+            console.log('circle and positions: ', circlesAndPositions);
+            for(let i=0; i<24; i++){
+              unhighlightSpot(i);
+            }
+            
+            if(fill == 'green'){
+              for(let destination of possibleEndDestinations){
+                highlightSpot(destination, spot.spotIndex);
+               
+              }
+
+
+
+            }
+            
+          
+            
+
+          
+        });
+      }
+
+    // }
+
+        pieces.push(circle);
+      }
+
+      return pieces;
+    }
+
+    // triangle.on('click', function () {
+    //     var fill = this.fill() == 'yellow' ? '#00D2FF' : 'yellow';
+    //     this.fill(fill);
+    //     destinationSpot.ckickable =  true;
+    //     //destinationspot.attrs.fill== "gray";
+    //   });
+
+    //   destinationSpot.on(){
+    //     this.clickable = false;
+    //   }
+
+    let activeSpots=[];
+    function highlightSpot(spotIndex, spotChipIndex){
+      
+      let spot = drawnSpots[spotIndex]// childrenWhichAreSpots[spotIndex];
+      spot.attrs.fill ='blue';
+      drawGhostPosition(spotIndex, spotChipIndex);
+    }
+
+    function drawGhostPosition(index, spotChipIndex){
+      let spotTargeted = drawnSpots[index];
+      let x1 = spotTargeted.attrs.points[0];
+      let y1 = spotTargeted.attrs.points[1];
+      let x2 = spotTargeted.attrs.points[2];
+      let y2 = spotTargeted.attrs.points[3];
+      let x3 = spotTargeted.attrs.points[4];
+      let y3 = spotTargeted.attrs.points[5];
+     
+
+      let ghostSpot = new Konva.Line({
+            points: [x1, y1,
+            x2, y2,
+            x3, y3,],
+            fill: 'green',
+            strokeWidth: 5,
+            closed: true,
+            opacity: 0.1
+        });
+        ghostSpot.on('click', function(){
+          console.log('spot from: ', spotChipIndex);
+          console.log('toSpot: ', index);
+          takeActionAfterMove(spotChipIndex,index);
+        });
+        activeSpots.push(ghostSpot);
+        layer.add(ghostSpot);
+        
+
+    }
+
+    function unhighlightSpot(spotIndex){
+      let spot = drawnSpots[spotIndex];
+      let spotColor = generateDefaultColorForSpot(spotIndex);
+      spot.attrs.fill = spotColor;
+      for(let activeSpot of activeSpots){
+        activeSpot.destroy();
+      }
+    }
+
+    
+    // highlightSpot(4);
   </script>
 </body>
 
